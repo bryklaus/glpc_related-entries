@@ -1,0 +1,17 @@
+{
+  "name": "related-entries",
+  "version": "1.0.0",
+  "description": "A Docker container for establishing entry-entry relations",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-fetch": "2.x",
+    "mysql2": "^2.3.3",
+    "wait-port": "^1.0.4",
+    "uuid": "^8.3.2"
+  },
+  "type": "commonjs"
+}
