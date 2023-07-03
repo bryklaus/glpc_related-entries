@@ -11,12 +11,10 @@ const dataRoute = require('./routes/data');
 app.use(allowCrossDomain);
 app.use(apiCall);
 app.use(express.static(__dirname + '/static'));
+app.use('/api', dataRoute);
 app.post('/items/add-item', addItem);
 app.get('/items', getItems);
 app.delete('/items/:id', deleteItem);
-
-// Use the data route middleware
-app.use('/api', dataRoute);
 
 db.init()
   .then(() => {
