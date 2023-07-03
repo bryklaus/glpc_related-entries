@@ -9,12 +9,13 @@ var cacheKeys = [];
 
 // Check if the current URL matches the OJS Workflow URL
 function checkWorkflowAccess() {
-	var workflowAccess = /\/GL\/workflow\/index\/(\d+)\/(\d+)$/;
+	var workflowAccess = /\/([A-Za-z\-]+)\/workflow\/index\/(\d+)\/(\d+)$/;
 	var workflowMatch = window.location.pathname.match(workflowAccess);
 	if (workflowMatch !== null) {
-		currentEntryId = parseInt(workflowMatch[1]);
-		var workflowStepId = parseInt(workflowMatch[2]);
-		return { currentEntryId: currentEntryId, workflowStepId: workflowStepId };
+		journalAbbreviation = workflowMatch[1];
+		currentEntryId = parseInt(workflowMatch[2]);
+		var workflowStepId = parseInt(workflowMatch[3]);
+		return { journalAbbreviation: journalAbbreviation, currentEntryId: currentEntryId, workflowStepId: workflowStepId };
 	}
 	return null;
 }
@@ -24,7 +25,7 @@ function getApiKey() {
 	return new Promise((resolve, reject) => {
 		console.log('Fetching API key...');
 		$.ajax({
-			url: '/GL/$$$call$$$/tab/user/profile-tab/api-profile',
+			url: `/${journalAbbreviation}/$$$call$$$/tab/user/profile-tab/api-profile`,
 			dataType: 'json',
 			success: function(data) {
 				var htmlContent = data.content;
@@ -180,7 +181,7 @@ function createListItem(item) {
 		.then(function(titles) {
 			const relatedEntryTitle = titles[0];
 
-			const itemText = '<span class="item-content"><span class="item-related"><a href="/GL/workflow/index/' + item.related_entry_id + '/4">' + relatedEntryTitle + '</a></span></span>';
+			const itemText = '<span class="item-content"><span class="item-related"><a href="/' + journalAbbreviation + '/workflow/index/' + item.related_entry_id + '/4">' + relatedEntryTitle + '</a></span></span>';
 
 			listItem.innerHTML = itemText;
 			listItem.classList.add('entry-item');
