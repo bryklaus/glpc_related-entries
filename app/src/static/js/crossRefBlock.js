@@ -4,6 +4,7 @@
 const currentEntryId = window.location.href.split('/').pop();
 const dockerApiUrl = () => new URL(document.currentScript.src).origin;
 const url = `${dockerApiUrl}/items?entryId=${currentEntryId}`;
+const journalAbbreviation = window.location.href.match(/\/([^/]+)\/article\/view\/\d+/)[1];
 
 function fetchJsonData(url) {
     return fetch(url)
@@ -57,7 +58,7 @@ function createListItem(item) {
 			const relatedEntryTitle = titles[0];
 
 			const itemText =
-				'<span class="item-content"><span class="item-related"><a href="/GL/article/view/' + item.related_entry_id + '">' + relatedEntryTitle + '</a></span></span>';
+				'<span class="item-content"><span class="item-related"><a href="/' + journalAbbreviation + '/article/view/' + item.related_entry_id + '">' + relatedEntryTitle + '</a></span></span>';
 
 			listItem.innerHTML = itemText;
 			listItem.classList.add('entry-item');
@@ -101,7 +102,7 @@ function createList(data) {
 }
 
 // Check if the URL structure matches the desired pattern
-if (window.location.href.includes("/GL/article/view/")) {
+if (window.location.href.includes(`/${journalAbbreviation}/article/view/`)) {
 	window.addEventListener('load', async function() {
 		try {
 			const data = await fetchJsonData(url);
