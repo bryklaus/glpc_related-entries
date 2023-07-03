@@ -1,7 +1,7 @@
 // Cross-References 1.0 (Client Side: OJS Backend)
 // Designed by Bryan Klausmeyer
 
-var dockerApiUrl = // Full URL (and, where applicable, port) for public-facing Docker app (no forward slash at end)
+var dockerApiUrl = ''; // Full URL (and, where applicable, port) for public-facing Docker app (no forward slash at end)
 var currentEntryId;
 
 var cache = {};
