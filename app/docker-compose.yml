@@ -14,7 +14,7 @@ services:
       - /app/node_modules
     environment:
       ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}
-      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_HOST: ${MYSQL_HOST:-mysql}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DB: ${MYSQL_DB}
@@ -28,6 +28,12 @@ services:
     environment: 
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DB}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    networks:
+      default:
+        aliases:
+          - ${MYSQL_HOST:-mysql}
       
 volumes:
   glpc-mysql-data:
