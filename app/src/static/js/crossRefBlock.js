@@ -2,7 +2,7 @@
 // Designed by Bryan Klausmeyer
 
 const currentEntryId = window.location.href.split('/').pop();
-const dockerApiUrl = // Full URL (and, where applicable, port) for public-facing Docker app (no forward slash at end)
+const dockerApiUrl = ''; // Full URL (and, where applicable, port) for public-facing Docker app (no forward slash at end)
 const url = `${dockerApiUrl}/items?entryId=${currentEntryId}`;
 
 function fetchJsonData(url) {
