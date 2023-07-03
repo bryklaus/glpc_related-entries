@@ -2,6 +2,7 @@
 // Designed by Bryan Klausmeyer
 
 const dockerApiUrl = () => new URL(document.currentScript.src).origin;
+const journalAbbreviation;
 var currentEntryId;
 
 var cache = {};
@@ -9,7 +10,7 @@ var cacheKeys = [];
 
 // Check if the current URL matches the OJS Workflow URL
 function checkWorkflowAccess() {
-	var workflowAccess = /\/([A-Za-z\-]+)\/workflow\/index\/(\d+)\/(\d+)$/;
+	var workflowAccess = /\/([^/]+)\/workflow\/index\/(\d+)\/(\d+)$/;
 	var workflowMatch = window.location.pathname.match(workflowAccess);
 	if (workflowMatch !== null) {
 		journalAbbreviation = workflowMatch[1];
