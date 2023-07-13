@@ -492,8 +492,13 @@ window.addEventListener('load', async function() {
 			console.log('API call successful.');
 			
 			const publicationStatus = await getPublicationStatus(currentEntryId);
+
+			const STATUS_QUEUED = 1;
+			const STATUS_PUBLISHED = 3;
+			const STATUS_DECLINED = 4;
+			const STATUS_SCHEDULED = 5;
 			
-			if (publicationStatus === 3 || publicationStatus === 5) {
+			if (publicationStatus === STATUS_PUBLISHED || publicationStatus === STATUS_SCHEDULED) {
 				const divRelatedEntries = await createRelatedEntriesContainer();
 				const url = `${dockerApiUrl}/items?entryId=${currentEntryId}`;
 				const data = await fetchJsonData(url);

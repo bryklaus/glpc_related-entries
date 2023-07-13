@@ -2,7 +2,6 @@ version: '3'
 
 services:
   app:
-    command: node src/index.js
     build:
       context: .
       dockerfile: Dockerfile
@@ -16,7 +15,7 @@ services:
       ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}
       MYSQL_HOST: ${MYSQL_HOST:-mysql}
       MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DB: ${MYSQL_DB}
       OJS_API_URL: ${OJS_API_URL}
       OJS_API_KEY: ${OJS_API_KEY}
@@ -29,7 +28,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DB}
       MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     networks:
       default:
         aliases:
