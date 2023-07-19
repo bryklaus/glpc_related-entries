@@ -325,7 +325,7 @@ function searchSubmissions(request, response) {
 	}
 }
 
-// Create the input box and position it correctly
+// Create the input box and position autocomplete results correctly
 function createInputBox() {
 	const inputBox = document.createElement('input');
 	inputBox.type = 'text';
@@ -392,6 +392,18 @@ function createInputBox() {
 		  return $("<li>").append("<div>" + item.label + "</div>").appendTo(ul);
 		};
 
+		// Handle error messages
+		function displayErrorMessage(message) {
+			const errorMessage = document.createElement('div');
+			errorMessage.textContent = `Error: ${message}.`;
+			errorMessage.classList.add('feedback', 'error');
+			container.appendChild(errorMessage);
+
+			setTimeout(() => {
+				errorMessage.remove();
+			}, 2000);
+		}
+		
 		inputBox.addEventListener('keydown', async (event) => {
 		  if (event.key === 'Enter') {
 			const item = entryIdInput.value;
@@ -399,17 +411,8 @@ function createInputBox() {
 			inputBox.value = '';
 
 			if (!item) {
-			  // Display error message
-			  const errorMessage = document.createElement('div');
-			  errorMessage.textContent = 'Invalid entry.';
-			  errorMessage.classList.add('feedback', 'error');
-			  container.appendChild(errorMessage);
-
-			  setTimeout(() => {
-				errorMessage.remove();
-			  }, 2000);
-
-			  return; // Abort execution
+				displayErrorMessage('Invalid entry');
+				return;
 			}
 
 			try {
@@ -426,19 +429,20 @@ function createInputBox() {
 				successMessage.remove();
 			  }, 2000);
 			} catch (error) {
-			  if (error.message === 'Duplicate entry') {
-				// Display duplicate entry error message
-				const errorMessage = document.createElement('div');
-				errorMessage.textContent = 'Error: Duplicate entry.';
-				errorMessage.classList.add('feedback', 'error');
-				container.appendChild(errorMessage);
-
-				setTimeout(() => {
-				  errorMessage.remove();
-				}, 2000);
-			  } else {
-				console.error('Error:', error);
-			  }
+				switch (error.type) {
+					case 'DuplicateEntryError':
+						displayErrorMessage('Duplicate entry');
+						break;
+					case 'SelfReferencingEntryError':
+						displayErrorMessage('Self-referencing entry is not allowed');
+						break;
+					case 'UnknownError':
+					case 'NetworkError':
+						console.error('Error:', error.message);
+						break;
+					default:
+						console.error('Unknown error:', error);
+				}
 			}
 		  }
 		});
@@ -472,9 +476,17 @@ async function addItem(item) {
 			list.appendChild(listItem);
 			return true;
 		} else if (response.status === 400) {
-			throw new Error('Duplicate entry');
+			const errorMessage = await response.text();
+
+			if (errorMessage === 'Duplicate entry') {
+				throw { type: 'DuplicateEntryError', message: 'Duplicate entry' };
+			} else if (errorMessage === 'Self-referencing entry') {
+				throw { type: 'SelfReferencingEntryError', message: 'Self-referencing entry' };
+			} else {
+				throw { type: 'UnknownError', message: 'Unknown error occurred' };
+			}
 		} else {
-			throw new Error('Network response was not ok.');
+			throw { type: 'NetworkError', message: 'Network response was not ok' };
 		}
 	} catch (error) {
 		throw error;
