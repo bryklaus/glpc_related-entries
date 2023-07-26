@@ -5,6 +5,11 @@ module.exports = async (req, res) => {
 	const entryId = req.body.currentEntryId;
 	const relatedEntryId = req.body.item;
 
+	// Check for solipsistic entry (A-A relation)
+	if (Number(entryId) === Number(relatedEntryId)) {
+		return res.status(400).send('Self-referencing entry');
+	}
+	
 	try {
 		// Check if A-B relationship already exists
 		const existingItemAB = await db.matchItem(entryId, relatedEntryId);
