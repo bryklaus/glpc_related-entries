@@ -562,7 +562,7 @@ window.addEventListener('load', async function() {
 
 				heading.appendChild(countSpan);
 			} else {
-				console.log('Current entry does not have the required publication status (3 or 5).');
+				console.log('Current entry does not have the required publication status (STATUS_PUBLISHED or STATUS_SCHEDULED).');
 			}
 			
 		} catch (error) {
