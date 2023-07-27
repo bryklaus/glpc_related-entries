@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const https = require('https');
 const fetch = require('node-fetch');
-const apiUrl = process.env.OJS_API_URL;
+const apiUrl = process.env.OJS_PROTOCOL_AND_DNS + process.env.OJS_BASE_URI;
 const apiKey = process.env.OJS_API_KEY;
 
 // ### Uncoment to bypass SSL certification ###

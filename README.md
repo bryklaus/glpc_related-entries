@@ -1,5 +1,5 @@
 # glpc_related-entries
-Related Entries Docker app for OJS 3.0
+Related Entries Docker app for OJS 3.x
 
 ## Microservice
 A nodejs microservice stores submission-submission relationships in a mysql database
