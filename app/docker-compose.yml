@@ -5,19 +5,19 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        OJS_BASE_URI: ${OJS_BASE_URI}
     ports:
       - "8080:3000"
     working_dir: /app
-    volumes:
-      - ./:/app
-      - /app/node_modules
     environment:
       ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}
       MYSQL_HOST: ${MYSQL_HOST:-mysql}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DB: ${MYSQL_DB}
-      OJS_API_URL: ${OJS_API_URL}
+      OJS_PROTOCOL_AND_DNS: ${OJS_PROTOCOL_AND_DNS}
+      OJS_BASE_URI: ${OJS_BASE_URI}
       OJS_API_KEY: ${OJS_API_KEY}
 
   mysql:

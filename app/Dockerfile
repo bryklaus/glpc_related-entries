@@ -6,7 +6,13 @@ COPY package*.json .
 
 RUN npm install
 
+RUN npm install -g envsub
+
 COPY . .
+
+ARG OJS_BASE_URI
+RUN envsub -d --syntax handlebars ./src/static/js/crossRefBlock.js
+RUN envsub -d --syntax handlebars ./src/static/js/relatedEntries.js
 
 CMD ["node", "./src/index.js"]
 

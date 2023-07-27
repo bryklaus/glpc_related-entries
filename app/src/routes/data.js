@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const https = require('https');
 const fetch = require('node-fetch');
-const apiUrl = process.env.OJS_API_URL;
+const apiUrl = process.env.OJS_PROTOCOL_AND_DNS + process.env.OJS_BASE_URI + '/api/v1;
 const apiKey = process.env.OJS_API_KEY;
 
 // ### Uncoment to bypass SSL certification ###
@@ -18,7 +18,7 @@ router.get('/data', (req, res) => {
 	// Check the endpoint requested
 	if (id) {
 		// Handle request for a specific submission ID
-		fetch(`${apiUrl}/${id}`, {
+		fetch(`${apiUrl}/submissions/${id}`, {
 			headers: {
 				'Authorization': 'Bearer ' + apiKey
 			},
@@ -67,7 +67,7 @@ router.get('/data', (req, res) => {
 			sectionIds
 		});
 
-		fetch(`${apiUrl}?${params.toString()}`, {
+		fetch(`${apiUrl}/submissions?${params.toString()}`, {
 			headers: {
 				'Authorization': 'Bearer ' + apiKey
 			},
