@@ -43,7 +43,31 @@ router.get('/data', (req, res) => {
 			// Extract the publication information
 			const publications = data.publications || [];
 			const firstPublication = publications[0] || {};
-			const fullTitle = firstPublication.fullTitle && firstPublication.fullTitle.en_US;
+			let fullTitle = '';
+
+			if (firstPublication.fullTitle) {
+				// Use the locale at the submission level as the language
+				const language = data.locale || "en_US"; // Default to "en_US" if no locale is provided
+
+				// Check if the language is available in the fullTitle object
+				if (firstPublication.fullTitle[language]) {
+					fullTitle = firstPublication.fullTitle[language];
+				} else {
+					// If the language is not available, fallback to the default language (en_US)
+					if (firstPublication.fullTitle.en_US) {
+						fullTitle = firstPublication.fullTitle.en_US;
+					} else {
+						// If the default (en_US) is not available, use any available language as a backup
+						for (const lang in firstPublication.fullTitle) {
+							if (firstPublication.fullTitle[lang]) {
+								fullTitle = firstPublication.fullTitle[lang];
+								break;
+							}
+						}
+					}
+				}
+			}
+
 			const status = firstPublication.status;
 
 			// Create the response object with the extracted information
