@@ -19,6 +19,7 @@ services:
       OJS_PROTOCOL_AND_DNS: ${OJS_PROTOCOL_AND_DNS}
       OJS_BASE_URI: ${OJS_BASE_URI}
       OJS_API_KEY: ${OJS_API_KEY}
+      OJS_SECTION_IDS: ${OJS_SECTION_IDS}
 
   mysql:
     image: mysql:8.0
