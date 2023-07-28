@@ -1,7 +1,21 @@
 // Cross-References 1.0 (Client Side: OJS Backend)
-// Designed by Bryan Klausmeyer
+// Designed by Bryan Klausmeyer & Clinton Graham
 
-const dockerApiUrl = () => new URL(document.currentScript.src).origin;
+let dockerApiBaseUrl = null;
+
+function setDockerApiBaseUrl() {
+	dockerApiBaseUrl = new URL(document.currentScript.src).origin;
+}
+
+setDockerApiBaseUrl();
+
+const dockerApiUrl = () => {
+	if (!dockerApiBaseUrl) {
+		console.error('Docker API base URL not set. Make sure to call setDockerApiBaseUrl() first.');
+	}
+	return dockerApiBaseUrl;
+};
+
 var currentEntryId;
 
 var cache = {};
@@ -53,7 +67,7 @@ function getApiKey() {
 function sendApiKey(apiKey) {
 	return new Promise((resolve, reject) => {
 		$.ajax({
-			url: dockerApiUrl + '/api/call',
+			url: dockerApiUrl() + '/api/call',
 			type: 'POST',
 			data: { apiKey: apiKey },
 			success: function(response) {
@@ -101,7 +115,7 @@ function fetchJsonData(url) {
 // Get the publication status of an entry
 async function getPublicationStatus(entryId) {
 	try {
-		const response = await fetch(`${dockerApiUrl}/api/data?id=${entryId}`, {
+		const response = await fetch(`${dockerApiUrl()}/api/data?id=${entryId}`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
@@ -125,7 +139,7 @@ function createRelatedEntriesContainer() {
 	return new Promise((resolve, reject) => {
 		var linkElement = document.createElement('link');
 		linkElement.rel = 'stylesheet';
-		linkElement.href = dockerApiUrl + '/css/relatedEntries.css';
+		linkElement.href = dockerApiUrl() + '/css/relatedEntries.css';
 		document.head.appendChild(linkElement);
 
 		const divRelatedEntries = document.createElement('div');
@@ -142,7 +156,7 @@ function getEntryTitles(ids) {
 	// Create an array of AJAX requests for each ID
 	var requests = ids.map(function(id) {
 		return $.ajax({
-			url: dockerApiUrl + "/api/data?id=" + id,
+			url: dockerApiUrl() + "/api/data?id=" + id,
 			method: "GET",
 			dataType: "json",
 			error: function(jqXHR, textStatus, errorThrown) {
@@ -252,7 +266,7 @@ function deleteItem(listItem) {
 		return; // Abort the deletion if not confirmed
 	}
 
-	fetch(`${dockerApiUrl}/items/${itemId}`, { method: 'DELETE' })
+	fetch(`${dockerApiUrl()}/items/${itemId}`, { method: 'DELETE' })
 		.then(response => {
 			if (response.ok) {
 				console.log(`Deleting item with ID ${itemId}`);
@@ -283,7 +297,7 @@ function searchSubmissions(request, response) {
 		response(cachedResults);
 	} else {
 		$.ajax({
-			url: dockerApiUrl + '/api/data',
+			url: dockerApiUrl() + '/api/data',
 			method: "GET",
 			dataType: "json",
 			data: {
@@ -463,7 +477,7 @@ async function addItem(item) {
 	};
 
 	try {
-		const response = await fetch(dockerApiUrl + '/items/add-item', {
+		const response = await fetch(dockerApiUrl() + '/items/add-item', {
 			method: 'POST',
 			body: JSON.stringify(payload),
 			headers: {
@@ -514,7 +528,7 @@ window.addEventListener('load', async function() {
 			
 			if (publicationStatus === STATUS_PUBLISHED || publicationStatus === STATUS_SCHEDULED) {
 				const divRelatedEntries = await createRelatedEntriesContainer();
-				const url = `${dockerApiUrl}/items?entryId=${currentEntryId}`;
+				const url = `${dockerApiUrl()}/items?entryId=${currentEntryId}`;
 				const data = await fetchJsonData(url);
 
 				const listResult = await createList(data);
