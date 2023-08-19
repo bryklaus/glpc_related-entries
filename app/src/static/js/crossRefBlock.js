@@ -2,8 +2,23 @@
 // Designed by Bryan Klausmeyer
 
 const currentEntryId = window.location.href.split('/').pop();
-const dockerApiUrl = () => new URL(document.currentScript.src).origin;
-const url = `${dockerApiUrl}/items?entryId=${currentEntryId}`;
+
+let dockerApiBaseUrl = null;
+
+function setDockerApiBaseUrl() {
+	dockerApiBaseUrl = new URL(document.currentScript.src).origin;
+}
+
+setDockerApiBaseUrl();
+
+const dockerApiUrl = () => {
+	if (!dockerApiBaseUrl) {
+		console.error('Docker API base URL not set. Make sure to call setDockerApiBaseUrl() first.');
+	}
+	return dockerApiBaseUrl;
+};
+
+const url = `${dockerApiUrl()}/items?entryId=${currentEntryId}`;
 
 function fetchJsonData(url) {
     return fetch(url)
@@ -26,7 +41,7 @@ function fetchJsonData(url) {
 function getEntryTitles(ids) {
   var requests = ids.map(function(id) {
     return $.ajax({
-      url: dockerApiUrl + "/api/data?id=" + id,
+      url: dockerApiUrl() + "/api/data?id=" + id,
       method: "GET",
       dataType: "json"
     });
