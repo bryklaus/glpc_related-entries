@@ -296,16 +296,21 @@ function searchSubmissions(request, response) {
 
 		response(cachedResults);
 	} else {
+
+		var sectionIds = "{{OJS_SECTION_IDS}}".split(',');
+
+		var requestData = {
+			searchPhrase: request.term,
+			count: 25,
+			status: '3,5',
+			sectionIds: sectionIds
+		};
+		
 		$.ajax({
 			url: dockerApiUrl() + '/api/data',
 			method: "GET",
 			dataType: "json",
-			data: {
-				searchPhrase: request.term,
-				count: 25,
-				status: '3,5',
-				sectionIds: 1
-			},
+			data: data: requestData,
 			success: function(data) {
 				var suggestions = [];
 				for (var i = 0; i < data.length; i++) {
