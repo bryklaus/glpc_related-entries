@@ -8,14 +8,14 @@ services:
       args:
         OJS_BASE_URI: ${OJS_BASE_URI}
     ports:
-      - "8080:3000"
+      - "${EXPOSED_PORT:-8080}:3000"
     working_dir: /app
     environment:
       ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}
       MYSQL_HOST: ${MYSQL_HOST:-mysql}
-      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_USER: ${MYSQL_USER:-relateduser}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DB: ${MYSQL_DB}
+      MYSQL_DB: ${MYSQL_DB:-relateddb}
       OJS_PROTOCOL_AND_DNS: ${OJS_PROTOCOL_AND_DNS}
       OJS_BASE_URI: ${OJS_BASE_URI}
       OJS_API_KEY: ${OJS_API_KEY}
@@ -27,8 +27,8 @@ services:
       - glpc-mysql-data:/var/lib/mysql
     environment: 
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DB}
-      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_DATABASE: ${MYSQL_DB:-relateddb}
+      MYSQL_USER: ${MYSQL_USER:-relateduser}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     networks:
       default:
