@@ -20,6 +20,7 @@ services:
       OJS_BASE_URI: ${OJS_BASE_URI}
       OJS_API_KEY: ${OJS_API_KEY}
       OJS_SECTION_IDS: ${OJS_SECTION_IDS}
+    restart: always
 
   mysql:
     image: mysql:8.0
@@ -34,6 +35,7 @@ services:
       default:
         aliases:
           - ${MYSQL_HOST:-mysql}
+    restart: always
       
 volumes:
   glpc-mysql-data:
