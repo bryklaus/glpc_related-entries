@@ -310,7 +310,7 @@ function searchSubmissions(request, response) {
 			url: dockerApiUrl() + '/api/data',
 			method: "GET",
 			dataType: "json",
-			data: data: requestData,
+			data: requestData,
 			success: function(data) {
 				var suggestions = [];
 				for (var i = 0; i < data.length; i++) {
