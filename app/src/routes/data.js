@@ -7,10 +7,9 @@ const fetch = require('node-fetch');
 const apiUrl = process.env.OJS_PROTOCOL_AND_DNS + process.env.OJS_BASE_URI + '/api/v1';
 const apiKey = process.env.OJS_API_KEY;
 
-// ### Uncoment to bypass SSL certification ###
-// const agent = new https.Agent({
-//	rejectUnauthorized: false
-// });
+const agent = new https.Agent({
+	rejectUnauthorized: (process.env.ALLOW_BROKEN_SSL ? false : true)
+});
 
 router.get('/data', (req, res) => {
 
