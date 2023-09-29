@@ -20,7 +20,7 @@ router.get('/data', (req, res) => {
 	
 	const { id, searchPhrase, count, status, sectionIds } = req.query;
 
-	// A) IF DATA IS REQUESTED FOR A SPECIFIC ENTRY USING THE ID, DO THIS:
+	// A) IF DATA ARE REQUESTED FOR A SPECIFIC ENTRY USING THE ID, DO THIS:
 	
 	if (id) {
 		// Handle request for a specific submission ID
@@ -89,7 +89,7 @@ router.get('/data', (req, res) => {
 			res.sendStatus(500); // Return an error status in case of failure
 		});
 
-	// B) ELSE IF DATA IS REQUESTED USING A SEARCH PHRASE, DO THIS:
+	// B) ELSE IF DATA ARE REQUESTED USING A SEARCH PHRASE, DO THIS:
 	
 	} else if (searchPhrase) {
 		// Handle request for searching submissions
