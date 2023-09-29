@@ -7,7 +7,7 @@ A nodejs microservice stores submission-submission relationships in a mysql data
 To install, see the required configuration variables in the `app/env.template` file.  Within the app directory, create a `.env` and then launch the application via the `docker-compose.yml` (e.g. `docker compose up -d`).  The `docker-compose.yml` will expose a single HTTP endpoint.  Presumably, you will want to proxy the application though Apache or nginx or similar to expose the NodeJS server over HTTP/HTTPS.
 
 ## Javascript UI
-Javascript files enable a backend UI for interaction with the microservice, and enable a public UI to render the relationships on the article landing page.
+Javascript files enable a backend UI for interaction with the microservice and a public UI to render the relationships on the article landing page.
 
 To implement in OJS, include the `js/crossRefBlock.js` javascript file in the frontend, and the `js/relatedEntries.js` plugin in the backend (e.g., using the Custom Header Plugin).
 
