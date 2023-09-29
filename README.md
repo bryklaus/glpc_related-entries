@@ -13,7 +13,7 @@ To implement in OJS, include the `js/crossRefBlock.js` javascript file in the fr
 
 Editorial users who wish to populate the cross references must enable an OJS API key in their OJS user profile.  This API key will be passed to the microservice to validate the user's authorization.
 
-To populate the cross references, navigate to the Submission in the workflow and use the "Cross References" widget, which appears as an overlay. As you begin typing, published entries and entries scheduled for publication will automatically appear. Once the desired entry has been selected, simply press the Return key to create the cross reference.
+To populate the cross references, navigate to the Submission in the workflow and use the "Cross References" widget, which appears as an overlay at the bottom righthand corner of the browser window. As you begin typing, published entries and entries scheduled for publication will automatically appear. Once the desired entry has been selected, simply press the Return key to create the cross reference.
 
 ## A pilot project
 This functionality demonstrates the value of a [generalized solution to interlink submissions in PKP OJS/OPS/OMP](https://forum.pkp.sfu.ca/t/interlinking-submissions-preprints-reviews-related-submissions/73783), with the hope that further development may be done to enable this as a built-in feature.
