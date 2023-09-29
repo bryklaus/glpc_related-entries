@@ -126,13 +126,13 @@ if (window.location.href.includes("{{OJS_BASE_URI}}/article/view/")) {
 			const data = await fetchJsonData(url);
 			const result = await createList(data);
 
+			await new Promise(function (resolve) {
+				setTimeout(function () {
+					resolve(result);
+				}, 0);
+			});
+			
 			if (result) {
-				await new Promise(function (resolve) {
-					setTimeout(function () {
-						resolve(result);
-					}, 0);
-				});
-	
 				var parentElement = document.querySelector('.pkp_block.block_galleys');
 	
 				var newDiv = document.createElement('div');
