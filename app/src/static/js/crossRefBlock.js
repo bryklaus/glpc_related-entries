@@ -93,6 +93,10 @@ function createList(data) {
 				const titleB = titles[ids.indexOf(b.related_entry_id)];
 				return titleA.localeCompare(titleB);
 			});
+			
+			if (data.length === 0) {
+				return null;
+			}
 
 			const list = document.createElement('ul');
 			list.id = 'entries_list';
