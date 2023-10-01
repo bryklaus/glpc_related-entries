@@ -131,31 +131,33 @@ if (window.location.href.includes("{{OJS_BASE_URI}}/article/view/")) {
 					resolve(result);
 				}, 0);
 			});
-
-			var parentElement = document.querySelector('.pkp_block.block_galleys');
-
-			var newDiv = document.createElement('div');
-			newDiv.className = 'pkp_block block_inline_html_related';
-
-			var titleSpan = document.createElement('span');
-			titleSpan.className = 'title';
-			titleSpan.innerHTML = 'Cross References';
-
-			newDiv.insertBefore(titleSpan, newDiv.firstChild);
-
-			var contentDiv = document.createElement('div');
-			contentDiv.className = 'content';
-
-			var relatedEntriesDiv = document.createElement('div');
-			relatedEntriesDiv.className = 'related-entries';
-
-			relatedEntriesDiv.appendChild(result.list);
-
-			contentDiv.appendChild(relatedEntriesDiv);
-
-			newDiv.appendChild(contentDiv);
-
-			parentElement.insertAdjacentElement('afterend', newDiv);
+			
+			if (result) {
+				var parentElement = document.querySelector('.pkp_block.block_galleys');
+	
+				var newDiv = document.createElement('div');
+				newDiv.className = 'pkp_block block_inline_html_related';
+	
+				var titleSpan = document.createElement('span');
+				titleSpan.className = 'title';
+				titleSpan.innerHTML = 'Cross References';
+	
+				newDiv.insertBefore(titleSpan, newDiv.firstChild);
+	
+				var contentDiv = document.createElement('div');
+				contentDiv.className = 'content';
+	
+				var relatedEntriesDiv = document.createElement('div');
+				relatedEntriesDiv.className = 'related-entries';
+	
+				relatedEntriesDiv.appendChild(result.list);
+	
+				contentDiv.appendChild(relatedEntriesDiv);
+	
+				newDiv.appendChild(contentDiv);
+	
+				parentElement.insertAdjacentElement('afterend', newDiv);
+			}
 		} catch (error) {
 			console.error('Error:', error);
 		}
