@@ -21,6 +21,7 @@ services:
       OJS_API_KEY: ${OJS_API_KEY}
       OJS_SECTION_IDS: ${OJS_SECTION_IDS}
       ALLOW_BROKEN_SSL: ${ALLOW_BROKEN_SSL}
+      DEBUG_MODE: ${DEBUG_MODE}
     restart: always
 
   mysql:
