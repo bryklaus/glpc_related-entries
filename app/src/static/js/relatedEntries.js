@@ -23,7 +23,7 @@ var cacheKeys = [];
 
 // Global logging function (debug mode)
 function logDebugMessage(message) {
-	if (process.env.DEBUG_MODE === 'true') {
+	if ("{{DEBUG_MODE}}" === 'true') {
 		console.log(message);
 	}
 }
