@@ -7,6 +7,8 @@ services:
       dockerfile: Dockerfile
       args:
         OJS_BASE_URI: ${OJS_BASE_URI}
+        OJS_SECTION_IDS: ${OJS_SECTION_IDS}
+        DEBUG_MODE: ${DEBUG_MODE:-false}
     ports:
       - "${EXPOSED_PORT:-8080}:3000"
     working_dir: /app
@@ -21,7 +23,6 @@ services:
       OJS_API_KEY: ${OJS_API_KEY}
       OJS_SECTION_IDS: ${OJS_SECTION_IDS}
       ALLOW_BROKEN_SSL: ${ALLOW_BROKEN_SSL}
-      DEBUG_MODE: ${DEBUG_MODE}
     restart: always
 
   mysql:
