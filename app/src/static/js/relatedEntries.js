@@ -21,6 +21,13 @@ var currentEntryId;
 var cache = {};
 var cacheKeys = [];
 
+// Global logging function (debug mode)
+function logDebugMessage(message) {
+	if (process.env.DEBUG_MODE === 'true') {
+		console.log(message);
+	}
+}
+
 // Check if the current URL matches the OJS Workflow URL
 function checkWorkflowAccess() {
 	if (window.location.pathname.startsWith('{{OJS_BASE_URI}}/workflow/index/')) {
@@ -38,7 +45,7 @@ function checkWorkflowAccess() {
 // Fetch the user's API key using AJAX
 function getApiKey() {
 	return new Promise((resolve, reject) => {
-		console.log('Fetching API key...');
+		logDebugMessage('Fetching API key...');
 		$.ajax({
 			url: '{{OJS_BASE_URI}}/$$$call$$$/tab/user/profile-tab/api-profile',
 			dataType: 'json',
@@ -49,10 +56,10 @@ function getApiKey() {
 
 				if (apiKey !== 'None') {
 					resolve(apiKey);
-					console.log('API key fetched successfully.');
+					logDebugMessage('API key fetched successfully.');
 				} else {
 					reject(new Error('No API key.'));
-					console.log('Error: No API key.');
+					logDebugMessage('Error: No API key.');
 				}
 			},
 			error: function(xhr, success, error) {
@@ -269,7 +276,7 @@ function deleteItem(listItem) {
 	fetch(`${dockerApiUrl()}/items/${itemId}`, { method: 'DELETE' })
 		.then(response => {
 			if (response.ok) {
-				console.log(`Deleting item with ID ${itemId}`);
+				logDebugMessage(`Deleting item with ID ${itemId}`);
 				listItem.parentNode.removeChild(listItem);
 			} else {
 				throw new Error('Network response was not ok.');
@@ -437,18 +444,18 @@ function createInputBox() {
 			}
 
 			try {
-			  const result = await addItem(item);
-			  console.log('Success: New cross-reference added.');
-
-			  // Display success message
-			  const successMessage = document.createElement('div');
-			  successMessage.textContent = 'Success!';
-			  successMessage.classList.add('feedback', 'success');
-			  container.appendChild(successMessage);
-
-			  setTimeout(() => {
-				successMessage.remove();
-			  }, 2000);
+				const result = await addItem(item);
+				logDebugMessage('Success: New cross-reference added.');
+				
+				// Display success message
+				const successMessage = document.createElement('div');
+				successMessage.textContent = 'Success!';
+				successMessage.classList.add('feedback', 'success');
+				container.appendChild(successMessage);
+				
+				setTimeout(() => {
+					successMessage.remove();
+				}, 2000);
 			} catch (error) {
 				switch (error.type) {
 					case 'DuplicateEntryError':
@@ -520,9 +527,9 @@ window.addEventListener('load', async function() {
 	if (workflow !== null) {
 		try {
 			const apiKey = await getApiKey();
-			console.log('Received API key:', apiKey);
+			logDebugMessage('Received API key:', apiKey);
 			await sendApiKey(apiKey);
-			console.log('API call successful.');
+			logDebugMessage('API call successful.');
 			
 			const publicationStatus = await getPublicationStatus(currentEntryId);
 
@@ -581,7 +588,7 @@ window.addEventListener('load', async function() {
 
 				heading.appendChild(countSpan);
 			} else {
-				console.log('Current entry does not have the required publication status (STATUS_PUBLISHED or STATUS_SCHEDULED).');
+				logDebugMessage('Current entry does not have the required publication status (STATUS_PUBLISHED or STATUS_SCHEDULED).');
 			}
 			
 		} catch (error) {
