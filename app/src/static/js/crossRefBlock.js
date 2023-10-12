@@ -133,10 +133,10 @@ if (window.location.href.includes("{{OJS_BASE_URI}}/article/view/")) {
 			});
 			
 			if (result) {
-				var parentElement = document.querySelector('.pkp_block.block_galleys');
+				var parentElement = document.querySelector('.pkp_block.block_inline_html_published_date');
 	
 				var newDiv = document.createElement('div');
-				newDiv.className = 'pkp_block block_inline_html_published_date';
+				newDiv.className = 'pkp_block block_inline_html_related';
 	
 				var titleSpan = document.createElement('span');
 				titleSpan.className = 'title';
