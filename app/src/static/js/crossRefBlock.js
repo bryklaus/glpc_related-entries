@@ -135,28 +135,29 @@ if (window.location.href.includes("{{OJS_BASE_URI}}/article/view/")) {
 			if (result) {
 				var parentElement = document.querySelector('.pkp_block.{{BLOCK_CLASS_TARGET}}');
 
-				var newDiv = document.createElement('div');
-				newDiv.className = 'pkp_block {{BLOCK_CLASS_NAME}}';
-
-				var titleSpan = document.createElement('span');
-				titleSpan.className = 'title';
-				titleSpan.innerHTML = '{{BLOCK_TITLE}}';
-
-				newDiv.insertBefore(titleSpan, newDiv.firstChild);
-
-				var contentDiv = document.createElement('div');
-				contentDiv.className = 'content';
-
-				var relatedEntriesDiv = document.createElement('div');
-				relatedEntriesDiv.className = 'related-entries';
-
-				relatedEntriesDiv.appendChild(result.list);
-
-				contentDiv.appendChild(relatedEntriesDiv);
-
-				newDiv.appendChild(contentDiv);
-
-				parentElement.insertAdjacentElement('afterend', newDiv);
+				if (parentElement) {
+					var newDiv = document.createElement('div');
+					newDiv.className = 'pkp_block {{BLOCK_CLASS_NAME}}';
+	
+					var titleSpan = document.createElement('span');
+					titleSpan.className = 'title';
+					titleSpan.innerHTML = '{{BLOCK_TITLE}}';
+	
+					newDiv.insertBefore(titleSpan, newDiv.firstChild);
+	
+					var contentDiv = document.createElement('div');
+					contentDiv.className = 'content';
+	
+					var relatedEntriesDiv = document.createElement('div');
+					relatedEntriesDiv.className = 'related-entries';
+					relatedEntriesDiv.appendChild(result.list);
+					
+					contentDiv.appendChild(relatedEntriesDiv);
+					newDiv.appendChild(contentDiv);
+					parentElement.insertAdjacentElement('afterend', newDiv);
+				} else {
+					console.error('Parent element not found.');
+				}
 			}
 		} catch (error) {
 			console.error('Error:', error);
